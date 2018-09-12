@@ -27,7 +27,7 @@ namespace AMZ_Coupon.Utility
         {
             var db = GetDbInstance();
             var source = from p in db.Product
-                         where p.ProductID == ID
+                         where p.ProductID == ID && p.Shelf.ToString() == "y"
                          select p;
             return source.ToList();
         }
@@ -36,6 +36,7 @@ namespace AMZ_Coupon.Utility
         public static bool InsertIntoProduct(Product product)
         {
             var db = GetDbInstance();
+
 
             db.Product.InsertOnSubmit(product);
             try

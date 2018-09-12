@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="View\BackEnd.css" />
     <Content Include="View\BackEnd.html" />
     <Content Include="View\BackEnd.js" />
     <Content Include="View\Home.css" />

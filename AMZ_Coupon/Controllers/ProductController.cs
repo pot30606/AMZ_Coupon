@@ -14,23 +14,9 @@ namespace AMZ_Coupon.Controllers
     [RoutePrefix("View/p")]
     public class ProductController : ApiController
     {
-        [Route("api/product/{MethodName}/{json}")]
-        [HttpPost]
-        public bool PostProductInfo(object jsons)
+        [Route("api/product/{MethodName}")]
+        public bool PostProductInfo(Product product)
         {
-            dynamic json = JsonConvert.SerializeObject(jsons);
-            var product = new Product
-            {
-                ProductName = json["ProductName"].ToString(),
-                Discount = (Decimal)json["Discount"],
-                PCoupon = json["PCoupon"].ToString(),
-                Price = (Decimal)json["Price"],
-                StartTime = (DateTime)json["StartTime"],
-                EndTime = (DateTime)json["EndTime"],
-                Shelf = (Char)json["Shelf"],
-                Valid = (Char)json["Valid"]
-            };
-
             var result = CouponDB.InsertIntoProduct(product);
 
             if (result)

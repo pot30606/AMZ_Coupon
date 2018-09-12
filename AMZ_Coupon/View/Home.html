@@ -17,7 +17,7 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#"></a>
 
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -25,11 +25,11 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
+                        <a class="nav-link disabled" href="#"></a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">BackEnd</button>
+                    <div class="btn btn-outline-success my-2 my-sm-0" id="GoBackEnd" >BackEnd</div>
                 </form>
             </div>
         </nav>
@@ -74,14 +74,13 @@
             <!--目標產品資訊-->
             <div class="col-6">
                 <div>
-                    <h2>All Products</h2>
-                    <ul id="products" />
-                </div>
-                <div>
-                    <h2>Search by ID</h2>
-                    <input type="text" id="prodId" size="5" />
-                    <input type="button" value="Search" onclick="find();" />
-                    <p id="product" />
+                    <h3 id="ProductName"></h3>
+                    <label>原價$</label>
+                    <label id="ProductPrice"></label>
+                    <label>特價$</label>
+                    <label id="ProductSalePrice"></label>
+                    <label>折扣$</label>
+                    <label id="ProductDiscount"></label>
                 </div>
             </div>
         </div>
@@ -111,24 +110,12 @@
             var ProductID = getProductID();
             console.log('ProductID : ', ProductID);
             var detail = getProductDetailById(ProductID);
-            
 
-            // Send an AJAX request
-            $.getJSON(uri +'/GetAllProducts')
-                .done(function (data) {
-                    console.log('data', data);
-                    // On success, 'data' contains a list of products.
-                    $.each(data, function (key, item) {
-                        // Add a list item for the product.
+            $("#GoBackEnd").on('click', function () {
+                location.href = '/View/BackEnd.html';
+            })
 
-                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
-                    });
-                });
         });
-
-        function formatItem(item) {
-            return item.ProductName + ': $' + item.Price + '使用折價券後 : ' + item.Discount * item.Price;
-        }
 
 
 
@@ -162,6 +149,15 @@
                 .fail(function (jqXHR, textStatus, err) {
                     $('#product').text('Error: ' + err);
                 });
+        }
+
+        function formatItem(item) {
+            console.log(item);
+            $("#ProductName").text(item.ProductName);
+            $("#ProductPrice").text(item.Price);
+            $("#ProductDiscount").text(item.Discount*100 + '% off');
+            $("#ProductSalePrice").text(item.Price * (1-item.Discount));
+            
         }
 
     </script>
