@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="View\BackEnd.html" />
+    <Content Include="View\BackEnd.js" />
+    <Content Include="View\Home.css" />
     <Content Include="View\Home.html" />
     <Content Include="View\Home.js" />
     <Content Include="Web.config" />
@@ -90,6 +93,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

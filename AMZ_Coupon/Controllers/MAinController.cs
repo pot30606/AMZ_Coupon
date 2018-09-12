@@ -14,9 +14,8 @@ namespace AMZ_Coupon.Controllers
     public class MainController : ApiController
     {
 
-        
-
-        [Route("api/{methodname}")]
+        [Route("api/main/{MethodName}")]
+        [ActionName("AllProducts")]
         [HttpGet]
         public IEnumerable<Product> GetAllProducts()
         {
@@ -24,7 +23,8 @@ namespace AMZ_Coupon.Controllers
             return result;
         }
 
-        [Route("api/{methodname}/{id}")]
+        [Route("api/main/{MethodName}/{id}")]
+        [ActionName("Product")]
         [HttpGet]
         public IEnumerable<Product> GetProduct(int id)
         {
@@ -39,5 +39,8 @@ namespace AMZ_Coupon.Controllers
                 return null;
             }
         }
+
+        
+
     }
 }

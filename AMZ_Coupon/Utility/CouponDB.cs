@@ -32,6 +32,36 @@ namespace AMZ_Coupon.Utility
             return source.ToList();
         }
 
+
+        public static bool InsertIntoProduct(Product product)
+        {
+            var db = GetDbInstance();
+
+            db.Product.InsertOnSubmit(product);
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
 
+/*
+ * 
+ * Discount = (Decimal)json["Discount"],
+                PCoupon = json["PCoupon"].ToString(),
+                Price = (Decimal)json["Price"],
+                StartTime = (DateTime)json["StartTime"],
+                EndTime = (DateTime)json["EndTime"],
+                Shelf = (Char)json["Shelf"],
+                Valid = (Char)json["Valid"]
+
+
+    */
