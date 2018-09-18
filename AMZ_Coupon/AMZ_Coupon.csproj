@@ -86,6 +86,7 @@
     <Content Include="View\BackEnd.css" />
     <Content Include="View\BackEnd.html" />
     <Content Include="View\BackEnd.js" />
+    <Content Include="View\DLAMZCouponSiteLogin.html" />
     <Content Include="View\Home.css" />
     <Content Include="View\Home.html" />
     <Content Include="View\Home.js" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">

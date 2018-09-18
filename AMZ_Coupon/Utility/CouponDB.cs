@@ -8,10 +8,28 @@ namespace AMZ_Coupon.Utility
 {
     public class CouponDB
     {
+        
+
         public static DataClasses1DataContext GetDbInstance()
         {
             DataClasses1DataContext DB = new DataClasses1DataContext();
             return DB;
+        }
+
+        public static string CheckLogin(string account , string password)
+        {
+            var db = GetDbInstance();
+            var source = from p in db.Member
+                         where p.Email == account && p.passwrod == password && p.Manager == "y"
+                         select p.Manager;
+            if (source.Count() > 0)
+            {
+                return "y";
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static IEnumerable<Product> GetProducts()
@@ -27,18 +45,43 @@ namespace AMZ_Coupon.Utility
         {
             var db = GetDbInstance();
             var source = from p in db.Product
-                         where p.ProductID == ID && p.Shelf.ToString() == "y"
+                         where p.ProductID == ID.ToString() && p.Shelf.ToString() == "y"
                          select p;
             return source.ToList();
         }
 
 
-        public static bool InsertIntoProduct(Product product)
+        public static bool InsertIntoProduct(ProductCouponTable product)
         {
             var db = GetDbInstance();
+            var pd = new Product()
+            {
+                ProductID = DateTime.Now.ToString("yyyyMMddhhmmss"),
+                Shelf = product.Shelf,
+                ProductName = product.ProductName,
+                Price = product.Price
+            };
+            db.Product.InsertOnSubmit(pd);
+
+            var Coupons = product.PCoupon.Split('\n');
+            for (int i = 0; i < Coupons.Length; i++)
+            {
+                if (Coupons[i].Length > 10)
+                {
+                    var cp = new Coupon()
+                    {
+                        CouponID = DateTime.Now.ToString("yyyyMMddhhmmss") + "-" + i,
+                        Discount = product.Discount,
+                        EndTime = product.EndTime,
+                        StartTime = product.StartTime,
+                        Coupon1 = Coupons[i],
+                        Valid = product.Valid
+                    };
+                    db.Coupon.InsertOnSubmit(cp);
+                }
+            }
 
 
-            db.Product.InsertOnSubmit(product);
             try
             {
                 db.SubmitChanges();
@@ -55,14 +98,27 @@ namespace AMZ_Coupon.Utility
 }
 
 /*
- * 
- * Discount = (Decimal)json["Discount"],
-                PCoupon = json["PCoupon"].ToString(),
-                Price = (Decimal)json["Price"],
-                StartTime = (DateTime)json["StartTime"],
-                EndTime = (DateTime)json["EndTime"],
-                Shelf = (Char)json["Shelf"],
-                Valid = (Char)json["Valid"]
 
+var db = GetDbInstance();
+            var Plist = new List<Product>();
 
-    */
+            var Coupons = product.PCoupon.Split('\n');
+            for(int i =0; i< Coupons.Length; i++)
+            {
+                product.ProductID = DateTime.Now.ToString("yyyyMMddhhmmss") +  i;
+                product.PCoupon = Coupons[i];
+                Plist.Add(product);
+            }
+            db.Product.InsertAllOnSubmit(Plist);
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
+
+            return true;
+ * */

@@ -2,13 +2,14 @@
   <Connection Mode="WebSettings" ConnectionString="Data Source=KUODAVID;Initial Catalog=AMZ-Coupon;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="AMZ_CouponConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Coupon" Member="Coupon">
     <Type Name="Coupon">
-      <Column Name="CouponID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CouponID" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Coupon" Member="Coupon1" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Discount" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
       <Column Name="StartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="EndTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Valid" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Valid" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
       <Column Name="MemberID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Discount" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
+      <Association Name="Coupon_Product" Member="Product" ThisKey="CouponID" OtherKey="CouponID" Type="Product" />
       <Association Name="Member_Coupon" Member="Member" ThisKey="MemberID" OtherKey="MemberID" Type="Member" IsForeignKey="true" />
     </Type>
   </Table>
@@ -23,24 +24,18 @@
       <Column Name="Gender" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Country" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Manager" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Manager" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
       <Association Name="Member_Coupon" Member="Coupon" ThisKey="MemberID" OtherKey="MemberID" Type="Coupon" />
-      <Association Name="Member_Product" Member="Product" ThisKey="MemberID" OtherKey="MemberID" Type="Product" />
     </Type>
   </Table>
   <Table Name="dbo.Product" Member="Product">
     <Type Name="Product">
-      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="PCoupon" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Discount" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
-      <Column Name="StartTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="EndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ProductID" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ProductName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
-      <Column Name="Shelf" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
-      <Column Name="MemberID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Valid" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
-      <Association Name="Member_Product" Member="Member" ThisKey="MemberID" OtherKey="MemberID" Type="Member" IsForeignKey="true" />
+      <Column Name="Shelf" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="CouponID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Coupon_Product" Member="Coupon" ThisKey="CouponID" OtherKey="CouponID" Type="Coupon" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

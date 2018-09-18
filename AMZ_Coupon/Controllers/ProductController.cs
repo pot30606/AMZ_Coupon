@@ -15,7 +15,7 @@ namespace AMZ_Coupon.Controllers
     public class ProductController : ApiController
     {
         [Route("api/product/{MethodName}")]
-        public bool PostProductInfo(Product product)
+        public bool PostProductInfo(ProductCouponTable product)
         {
             var result = CouponDB.InsertIntoProduct(product);
 

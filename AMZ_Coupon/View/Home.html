@@ -28,8 +28,8 @@
                         <a class="nav-link disabled" href="#"></a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <div class="btn btn-outline-success my-2 my-sm-0" id="GoBackEnd" >BackEnd</div>
+                <form class="form-inline my-2 my-lg-0" >
+                    <div class="btn btn-outline-success my-2 my-sm-0" id="GoBackEnd"  >BackEnd</div>
                 </form>
             </div>
         </nav>
@@ -81,6 +81,9 @@
                     <label id="ProductSalePrice"></label>
                     <label>折扣$</label>
                     <label id="ProductDiscount"></label>
+                    <br />
+                    <label>Coupon : </label>
+                    <label id="Coupon"></label>
                 </div>
             </div>
         </div>
@@ -107,17 +110,26 @@
 
 
         $(document).ready(function () {
+            $('#GoBackEnd').hide();
             var ProductID = getProductID();
             console.log('ProductID : ', ProductID);
             var detail = getProductDetailById(ProductID);
 
+            isOwner();
+
             $("#GoBackEnd").on('click', function () {
-                location.href = '/View/BackEnd.html';
+                if (localStorage.getItem('user')) {
+                    location.href = '/View/BackEnd.html';
+                }
             })
 
         });
 
-
+        function isOwner() {
+            if (localStorage.getItem('user')) {
+                $('#GoBackEnd').show();
+            }
+        }
 
         function getUrlVars() {
             var vars = [], hash;
@@ -156,8 +168,8 @@
             $("#ProductName").text(item.ProductName);
             $("#ProductPrice").text(item.Price);
             $("#ProductDiscount").text(item.Discount*100 + '% off');
-            $("#ProductSalePrice").text(item.Price * (1-item.Discount));
-            
+            $("#ProductSalePrice").text(item.Price * (1 - item.Discount));
+            $("#Coupon").text(item.PCoupon);
         }
 
     </script>

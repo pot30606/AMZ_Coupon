@@ -102,19 +102,21 @@ namespace AMZ_Coupon.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _CouponID;
+		private string _CouponID;
 		
 		private string _Coupon1;
-		
-		private decimal _Discount;
 		
 		private System.DateTime _StartTime;
 		
 		private System.DateTime _EndTime;
 		
-		private char _Valid;
+		private string _Valid;
 		
 		private System.Nullable<int> _MemberID;
+		
+		private decimal _Discount;
+		
+		private EntitySet<Product> _Product;
 		
 		private EntityRef<Member> _Member;
 		
@@ -122,30 +124,31 @@ namespace AMZ_Coupon.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnCouponIDChanging(int value);
+    partial void OnCouponIDChanging(string value);
     partial void OnCouponIDChanged();
     partial void OnCoupon1Changing(string value);
     partial void OnCoupon1Changed();
-    partial void OnDiscountChanging(decimal value);
-    partial void OnDiscountChanged();
     partial void OnStartTimeChanging(System.DateTime value);
     partial void OnStartTimeChanged();
     partial void OnEndTimeChanging(System.DateTime value);
     partial void OnEndTimeChanged();
-    partial void OnValidChanging(char value);
+    partial void OnValidChanging(string value);
     partial void OnValidChanged();
     partial void OnMemberIDChanging(System.Nullable<int> value);
     partial void OnMemberIDChanged();
+    partial void OnDiscountChanging(decimal value);
+    partial void OnDiscountChanged();
     #endregion
 		
 		public Coupon()
 		{
+			this._Product = new EntitySet<Product>(new Action<Product>(this.attach_Product), new Action<Product>(this.detach_Product));
 			this._Member = default(EntityRef<Member>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CouponID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string CouponID
 		{
 			get
 			{
@@ -180,26 +183,6 @@ namespace AMZ_Coupon.Models
 					this._Coupon1 = value;
 					this.SendPropertyChanged("Coupon1");
 					this.OnCoupon1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Discount", DbType="Decimal(18,4) NOT NULL")]
-		public decimal Discount
-		{
-			get
-			{
-				return this._Discount;
-			}
-			set
-			{
-				if ((this._Discount != value))
-				{
-					this.OnDiscountChanging(value);
-					this.SendPropertyChanging();
-					this._Discount = value;
-					this.SendPropertyChanged("Discount");
-					this.OnDiscountChanged();
 				}
 			}
 		}
@@ -244,8 +227,8 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valid", DbType="Char(1) NOT NULL")]
-		public char Valid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valid", DbType="NChar(10) NOT NULL", CanBeNull=false)]
+		public string Valid
 		{
 			get
 			{
@@ -285,6 +268,39 @@ namespace AMZ_Coupon.Models
 					this.SendPropertyChanged("MemberID");
 					this.OnMemberIDChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Discount", DbType="Decimal(18,4) NOT NULL")]
+		public decimal Discount
+		{
+			get
+			{
+				return this._Discount;
+			}
+			set
+			{
+				if ((this._Discount != value))
+				{
+					this.OnDiscountChanging(value);
+					this.SendPropertyChanging();
+					this._Discount = value;
+					this.SendPropertyChanged("Discount");
+					this.OnDiscountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Coupon_Product", Storage="_Product", ThisKey="CouponID", OtherKey="CouponID")]
+		public EntitySet<Product> Product
+		{
+			get
+			{
+				return this._Product;
+			}
+			set
+			{
+				this._Product.Assign(value);
 			}
 		}
 		
@@ -341,6 +357,18 @@ namespace AMZ_Coupon.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_Product(Product entity)
+		{
+			this.SendPropertyChanging();
+			entity.Coupon = this;
+		}
+		
+		private void detach_Product(Product entity)
+		{
+			this.SendPropertyChanging();
+			entity.Coupon = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Member")]
@@ -367,11 +395,9 @@ namespace AMZ_Coupon.Models
 		
 		private System.Nullable<int> _Age;
 		
-		private char _Manager;
+		private string _Manager;
 		
 		private EntitySet<Coupon> _Coupon;
-		
-		private EntitySet<Product> _Product;
 		
     #region 擴充性方法定義
     partial void OnLoaded();
@@ -395,14 +421,13 @@ namespace AMZ_Coupon.Models
     partial void OnCountryChanged();
     partial void OnAgeChanging(System.Nullable<int> value);
     partial void OnAgeChanged();
-    partial void OnManagerChanging(char value);
+    partial void OnManagerChanging(string value);
     partial void OnManagerChanged();
     #endregion
 		
 		public Member()
 		{
 			this._Coupon = new EntitySet<Coupon>(new Action<Coupon>(this.attach_Coupon), new Action<Coupon>(this.detach_Coupon));
-			this._Product = new EntitySet<Product>(new Action<Product>(this.attach_Product), new Action<Product>(this.detach_Product));
 			OnCreated();
 		}
 		
@@ -586,8 +611,8 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Manager", DbType="Char(1) NOT NULL")]
-		public char Manager
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Manager", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string Manager
 		{
 			get
 			{
@@ -616,19 +641,6 @@ namespace AMZ_Coupon.Models
 			set
 			{
 				this._Coupon.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Product", Storage="_Product", ThisKey="MemberID", OtherKey="MemberID")]
-		public EntitySet<Product> Product
-		{
-			get
-			{
-				return this._Product;
-			}
-			set
-			{
-				this._Product.Assign(value);
 			}
 		}
 		
@@ -663,18 +675,6 @@ namespace AMZ_Coupon.Models
 			this.SendPropertyChanging();
 			entity.Member = null;
 		}
-		
-		private void attach_Product(Product entity)
-		{
-			this.SendPropertyChanging();
-			entity.Member = this;
-		}
-		
-		private void detach_Product(Product entity)
-		{
-			this.SendPropertyChanging();
-			entity.Member = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Product")]
@@ -683,62 +683,42 @@ namespace AMZ_Coupon.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ProductID;
-		
-		private string _PCoupon;
-		
-		private decimal _Discount;
-		
-		private System.Nullable<System.DateTime> _StartTime;
-		
-		private System.Nullable<System.DateTime> _EndTime;
+		private string _ProductID;
 		
 		private string _ProductName;
 		
 		private decimal _Price;
 		
-		private char _Shelf;
+		private string _Shelf;
 		
-		private System.Nullable<int> _MemberID;
+		private string _CouponID;
 		
-		private char _Valid;
-		
-		private EntityRef<Member> _Member;
+		private EntityRef<Coupon> _Coupon;
 		
     #region 擴充性方法定義
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnProductIDChanging(int value);
+    partial void OnProductIDChanging(string value);
     partial void OnProductIDChanged();
-    partial void OnPCouponChanging(string value);
-    partial void OnPCouponChanged();
-    partial void OnDiscountChanging(decimal value);
-    partial void OnDiscountChanged();
-    partial void OnStartTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnStartTimeChanged();
-    partial void OnEndTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnEndTimeChanged();
     partial void OnProductNameChanging(string value);
     partial void OnProductNameChanged();
     partial void OnPriceChanging(decimal value);
     partial void OnPriceChanged();
-    partial void OnShelfChanging(char value);
+    partial void OnShelfChanging(string value);
     partial void OnShelfChanged();
-    partial void OnMemberIDChanging(System.Nullable<int> value);
-    partial void OnMemberIDChanged();
-    partial void OnValidChanging(char value);
-    partial void OnValidChanged();
+    partial void OnCouponIDChanging(string value);
+    partial void OnCouponIDChanged();
     #endregion
 		
 		public Product()
 		{
-			this._Member = default(EntityRef<Member>);
+			this._Coupon = default(EntityRef<Coupon>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ProductID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string ProductID
 		{
 			get
 			{
@@ -753,86 +733,6 @@ namespace AMZ_Coupon.Models
 					this._ProductID = value;
 					this.SendPropertyChanged("ProductID");
 					this.OnProductIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PCoupon", DbType="VarChar(50)")]
-		public string PCoupon
-		{
-			get
-			{
-				return this._PCoupon;
-			}
-			set
-			{
-				if ((this._PCoupon != value))
-				{
-					this.OnPCouponChanging(value);
-					this.SendPropertyChanging();
-					this._PCoupon = value;
-					this.SendPropertyChanged("PCoupon");
-					this.OnPCouponChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Discount", DbType="Decimal(18,4) NOT NULL")]
-		public decimal Discount
-		{
-			get
-			{
-				return this._Discount;
-			}
-			set
-			{
-				if ((this._Discount != value))
-				{
-					this.OnDiscountChanging(value);
-					this.SendPropertyChanging();
-					this._Discount = value;
-					this.SendPropertyChanged("Discount");
-					this.OnDiscountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> StartTime
-		{
-			get
-			{
-				return this._StartTime;
-			}
-			set
-			{
-				if ((this._StartTime != value))
-				{
-					this.OnStartTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartTime = value;
-					this.SendPropertyChanged("StartTime");
-					this.OnStartTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
 				}
 			}
 		}
@@ -877,8 +777,8 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shelf", DbType="Char(1) NOT NULL")]
-		public char Shelf
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shelf", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string Shelf
 		{
 			get
 			{
@@ -897,80 +797,60 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MemberID", DbType="Int")]
-		public System.Nullable<int> MemberID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", DbType="VarChar(50)")]
+		public string CouponID
 		{
 			get
 			{
-				return this._MemberID;
+				return this._CouponID;
 			}
 			set
 			{
-				if ((this._MemberID != value))
+				if ((this._CouponID != value))
 				{
-					if (this._Member.HasLoadedOrAssignedValue)
+					if (this._Coupon.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnMemberIDChanging(value);
+					this.OnCouponIDChanging(value);
 					this.SendPropertyChanging();
-					this._MemberID = value;
-					this.SendPropertyChanged("MemberID");
-					this.OnMemberIDChanged();
+					this._CouponID = value;
+					this.SendPropertyChanged("CouponID");
+					this.OnCouponIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valid", DbType="Char(1) NOT NULL")]
-		public char Valid
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Coupon_Product", Storage="_Coupon", ThisKey="CouponID", OtherKey="CouponID", IsForeignKey=true)]
+		public Coupon Coupon
 		{
 			get
 			{
-				return this._Valid;
+				return this._Coupon.Entity;
 			}
 			set
 			{
-				if ((this._Valid != value))
-				{
-					this.OnValidChanging(value);
-					this.SendPropertyChanging();
-					this._Valid = value;
-					this.SendPropertyChanged("Valid");
-					this.OnValidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Product", Storage="_Member", ThisKey="MemberID", OtherKey="MemberID", IsForeignKey=true)]
-		public Member Member
-		{
-			get
-			{
-				return this._Member.Entity;
-			}
-			set
-			{
-				Member previousValue = this._Member.Entity;
+				Coupon previousValue = this._Coupon.Entity;
 				if (((previousValue != value) 
-							|| (this._Member.HasLoadedOrAssignedValue == false)))
+							|| (this._Coupon.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Member.Entity = null;
+						this._Coupon.Entity = null;
 						previousValue.Product.Remove(this);
 					}
-					this._Member.Entity = value;
+					this._Coupon.Entity = value;
 					if ((value != null))
 					{
 						value.Product.Add(this);
-						this._MemberID = value.MemberID;
+						this._CouponID = value.CouponID;
 					}
 					else
 					{
-						this._MemberID = default(Nullable<int>);
+						this._CouponID = default(string);
 					}
-					this.SendPropertyChanged("Member");
+					this.SendPropertyChanged("Coupon");
 				}
 			}
 		}

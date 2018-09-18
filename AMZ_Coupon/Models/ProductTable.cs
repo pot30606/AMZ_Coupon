@@ -5,13 +5,13 @@ using System.Web;
 
 namespace AMZ_Coupon.Models
 {
-    public class ProductTable
+    public class ProductCouponTable
     {
-        public int ProductID { get; set; }
+        public string ProductID { get; set; }
         public string PCoupon { get; set; }
         public decimal Discount { get; set; }
-        public DateTime ?StartTime { get; set; }
-        public DateTime ?EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public string Shelf { get; set; }
