@@ -23,12 +23,12 @@ namespace AMZ_Coupon.Controllers
             return result;
         }
 
-        [Route("api/main/{MethodName}/{id}")]
-        [ActionName("Product")]
+        [Route("api/main/{MethodName}/{productid}")]
+        [ActionName("GetProduct")]
         [HttpGet]
-        public IEnumerable<Product> GetProduct(int id)
+        public IEnumerable<Models.ProductCouponTable> GetProduct(string productid)
         {
-            var result = CouponDB.GetSingleProduct(id);
+            var result = CouponDB.GetSingleProduct(productid);
 
             if (result.Count() > 0)
             {

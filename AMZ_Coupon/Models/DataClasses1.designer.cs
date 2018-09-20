@@ -30,15 +30,21 @@ namespace AMZ_Coupon.Models
 		
     #region 擴充性方法定義
     partial void OnCreated();
-    partial void InsertCoupon(Coupon instance);
-    partial void UpdateCoupon(Coupon instance);
-    partial void DeleteCoupon(Coupon instance);
     partial void InsertMember(Member instance);
     partial void UpdateMember(Member instance);
     partial void DeleteMember(Member instance);
+    partial void InsertCart(Cart instance);
+    partial void UpdateCart(Cart instance);
+    partial void DeleteCart(Cart instance);
+    partial void InsertCartDetail(CartDetail instance);
+    partial void UpdateCartDetail(CartDetail instance);
+    partial void DeleteCartDetail(CartDetail instance);
     partial void InsertProduct(Product instance);
     partial void UpdateProduct(Product instance);
     partial void DeleteProduct(Product instance);
+    partial void InsertCoupon(Coupon instance);
+    partial void UpdateCoupon(Coupon instance);
+    partial void DeleteCoupon(Coupon instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -71,19 +77,27 @@ namespace AMZ_Coupon.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Coupon> Coupon
-		{
-			get
-			{
-				return this.GetTable<Coupon>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Member> Member
 		{
 			get
 			{
 				return this.GetTable<Member>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Cart> Cart
+		{
+			get
+			{
+				return this.GetTable<Cart>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CartDetail> CartDetail
+		{
+			get
+			{
+				return this.GetTable<CartDetail>();
 			}
 		}
 		
@@ -94,280 +108,13 @@ namespace AMZ_Coupon.Models
 				return this.GetTable<Product>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Coupon")]
-	public partial class Coupon : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _CouponID;
-		
-		private string _Coupon1;
-		
-		private System.DateTime _StartTime;
-		
-		private System.DateTime _EndTime;
-		
-		private string _Valid;
-		
-		private System.Nullable<int> _MemberID;
-		
-		private decimal _Discount;
-		
-		private EntitySet<Product> _Product;
-		
-		private EntityRef<Member> _Member;
-		
-    #region 擴充性方法定義
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCouponIDChanging(string value);
-    partial void OnCouponIDChanged();
-    partial void OnCoupon1Changing(string value);
-    partial void OnCoupon1Changed();
-    partial void OnStartTimeChanging(System.DateTime value);
-    partial void OnStartTimeChanged();
-    partial void OnEndTimeChanging(System.DateTime value);
-    partial void OnEndTimeChanged();
-    partial void OnValidChanging(string value);
-    partial void OnValidChanged();
-    partial void OnMemberIDChanging(System.Nullable<int> value);
-    partial void OnMemberIDChanged();
-    partial void OnDiscountChanging(decimal value);
-    partial void OnDiscountChanged();
-    #endregion
-		
-		public Coupon()
-		{
-			this._Product = new EntitySet<Product>(new Action<Product>(this.attach_Product), new Action<Product>(this.detach_Product));
-			this._Member = default(EntityRef<Member>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string CouponID
+		public System.Data.Linq.Table<Coupon> Coupon
 		{
 			get
 			{
-				return this._CouponID;
+				return this.GetTable<Coupon>();
 			}
-			set
-			{
-				if ((this._CouponID != value))
-				{
-					this.OnCouponIDChanging(value);
-					this.SendPropertyChanging();
-					this._CouponID = value;
-					this.SendPropertyChanged("CouponID");
-					this.OnCouponIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Coupon", Storage="_Coupon1", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Coupon1
-		{
-			get
-			{
-				return this._Coupon1;
-			}
-			set
-			{
-				if ((this._Coupon1 != value))
-				{
-					this.OnCoupon1Changing(value);
-					this.SendPropertyChanging();
-					this._Coupon1 = value;
-					this.SendPropertyChanged("Coupon1");
-					this.OnCoupon1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime NOT NULL")]
-		public System.DateTime StartTime
-		{
-			get
-			{
-				return this._StartTime;
-			}
-			set
-			{
-				if ((this._StartTime != value))
-				{
-					this.OnStartTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartTime = value;
-					this.SendPropertyChanged("StartTime");
-					this.OnStartTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime NOT NULL")]
-		public System.DateTime EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valid", DbType="NChar(10) NOT NULL", CanBeNull=false)]
-		public string Valid
-		{
-			get
-			{
-				return this._Valid;
-			}
-			set
-			{
-				if ((this._Valid != value))
-				{
-					this.OnValidChanging(value);
-					this.SendPropertyChanging();
-					this._Valid = value;
-					this.SendPropertyChanged("Valid");
-					this.OnValidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MemberID", DbType="Int")]
-		public System.Nullable<int> MemberID
-		{
-			get
-			{
-				return this._MemberID;
-			}
-			set
-			{
-				if ((this._MemberID != value))
-				{
-					if (this._Member.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMemberIDChanging(value);
-					this.SendPropertyChanging();
-					this._MemberID = value;
-					this.SendPropertyChanged("MemberID");
-					this.OnMemberIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Discount", DbType="Decimal(18,4) NOT NULL")]
-		public decimal Discount
-		{
-			get
-			{
-				return this._Discount;
-			}
-			set
-			{
-				if ((this._Discount != value))
-				{
-					this.OnDiscountChanging(value);
-					this.SendPropertyChanging();
-					this._Discount = value;
-					this.SendPropertyChanged("Discount");
-					this.OnDiscountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Coupon_Product", Storage="_Product", ThisKey="CouponID", OtherKey="CouponID")]
-		public EntitySet<Product> Product
-		{
-			get
-			{
-				return this._Product;
-			}
-			set
-			{
-				this._Product.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Coupon", Storage="_Member", ThisKey="MemberID", OtherKey="MemberID", IsForeignKey=true)]
-		public Member Member
-		{
-			get
-			{
-				return this._Member.Entity;
-			}
-			set
-			{
-				Member previousValue = this._Member.Entity;
-				if (((previousValue != value) 
-							|| (this._Member.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Member.Entity = null;
-						previousValue.Coupon.Remove(this);
-					}
-					this._Member.Entity = value;
-					if ((value != null))
-					{
-						value.Coupon.Add(this);
-						this._MemberID = value.MemberID;
-					}
-					else
-					{
-						this._MemberID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Member");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Product(Product entity)
-		{
-			this.SendPropertyChanging();
-			entity.Coupon = this;
-		}
-		
-		private void detach_Product(Product entity)
-		{
-			this.SendPropertyChanging();
-			entity.Coupon = null;
 		}
 	}
 	
@@ -397,7 +144,7 @@ namespace AMZ_Coupon.Models
 		
 		private string _Manager;
 		
-		private EntitySet<Coupon> _Coupon;
+		private EntitySet<Cart> _Cart;
 		
     #region 擴充性方法定義
     partial void OnLoaded();
@@ -427,7 +174,7 @@ namespace AMZ_Coupon.Models
 		
 		public Member()
 		{
-			this._Coupon = new EntitySet<Coupon>(new Action<Coupon>(this.attach_Coupon), new Action<Coupon>(this.detach_Coupon));
+			this._Cart = new EntitySet<Cart>(new Action<Cart>(this.attach_Cart), new Action<Cart>(this.detach_Cart));
 			OnCreated();
 		}
 		
@@ -631,16 +378,16 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Coupon", Storage="_Coupon", ThisKey="MemberID", OtherKey="MemberID")]
-		public EntitySet<Coupon> Coupon
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Cart", Storage="_Cart", ThisKey="MemberID", OtherKey="MemberID")]
+		public EntitySet<Cart> Cart
 		{
 			get
 			{
-				return this._Coupon;
+				return this._Cart;
 			}
 			set
 			{
-				this._Coupon.Assign(value);
+				this._Cart.Assign(value);
 			}
 		}
 		
@@ -664,16 +411,339 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		private void attach_Coupon(Coupon entity)
+		private void attach_Cart(Cart entity)
 		{
 			this.SendPropertyChanging();
 			entity.Member = this;
 		}
 		
-		private void detach_Coupon(Coupon entity)
+		private void detach_Cart(Cart entity)
 		{
 			this.SendPropertyChanging();
 			entity.Member = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Cart")]
+	public partial class Cart : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MemberID;
+		
+		private int _CartID;
+		
+		private EntitySet<CartDetail> _CartDetail;
+		
+		private EntityRef<Member> _Member;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMemberIDChanging(int value);
+    partial void OnMemberIDChanged();
+    partial void OnCartIDChanging(int value);
+    partial void OnCartIDChanged();
+    #endregion
+		
+		public Cart()
+		{
+			this._CartDetail = new EntitySet<CartDetail>(new Action<CartDetail>(this.attach_CartDetail), new Action<CartDetail>(this.detach_CartDetail));
+			this._Member = default(EntityRef<Member>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MemberID", DbType="Int NOT NULL")]
+		public int MemberID
+		{
+			get
+			{
+				return this._MemberID;
+			}
+			set
+			{
+				if ((this._MemberID != value))
+				{
+					if (this._Member.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMemberIDChanging(value);
+					this.SendPropertyChanging();
+					this._MemberID = value;
+					this.SendPropertyChanged("MemberID");
+					this.OnMemberIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CartID
+		{
+			get
+			{
+				return this._CartID;
+			}
+			set
+			{
+				if ((this._CartID != value))
+				{
+					this.OnCartIDChanging(value);
+					this.SendPropertyChanging();
+					this._CartID = value;
+					this.SendPropertyChanged("CartID");
+					this.OnCartIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cart_CartDetail", Storage="_CartDetail", ThisKey="CartID", OtherKey="CartID")]
+		public EntitySet<CartDetail> CartDetail
+		{
+			get
+			{
+				return this._CartDetail;
+			}
+			set
+			{
+				this._CartDetail.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Cart", Storage="_Member", ThisKey="MemberID", OtherKey="MemberID", IsForeignKey=true)]
+		public Member Member
+		{
+			get
+			{
+				return this._Member.Entity;
+			}
+			set
+			{
+				Member previousValue = this._Member.Entity;
+				if (((previousValue != value) 
+							|| (this._Member.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Member.Entity = null;
+						previousValue.Cart.Remove(this);
+					}
+					this._Member.Entity = value;
+					if ((value != null))
+					{
+						value.Cart.Add(this);
+						this._MemberID = value.MemberID;
+					}
+					else
+					{
+						this._MemberID = default(int);
+					}
+					this.SendPropertyChanged("Member");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CartDetail(CartDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cart = this;
+		}
+		
+		private void detach_CartDetail(CartDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cart = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CartDetail")]
+	public partial class CartDetail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CartID;
+		
+		private string _ProductID;
+		
+		private EntityRef<Cart> _Cart;
+		
+		private EntityRef<Product> _Product;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCartIDChanging(int value);
+    partial void OnCartIDChanged();
+    partial void OnProductIDChanging(string value);
+    partial void OnProductIDChanged();
+    #endregion
+		
+		public CartDetail()
+		{
+			this._Cart = default(EntityRef<Cart>);
+			this._Product = default(EntityRef<Product>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CartID
+		{
+			get
+			{
+				return this._CartID;
+			}
+			set
+			{
+				if ((this._CartID != value))
+				{
+					if (this._Cart.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCartIDChanging(value);
+					this.SendPropertyChanging();
+					this._CartID = value;
+					this.SendPropertyChanged("CartID");
+					this.OnCartIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string ProductID
+		{
+			get
+			{
+				return this._ProductID;
+			}
+			set
+			{
+				if ((this._ProductID != value))
+				{
+					if (this._Product.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIDChanging(value);
+					this.SendPropertyChanging();
+					this._ProductID = value;
+					this.SendPropertyChanged("ProductID");
+					this.OnProductIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cart_CartDetail", Storage="_Cart", ThisKey="CartID", OtherKey="CartID", IsForeignKey=true)]
+		public Cart Cart
+		{
+			get
+			{
+				return this._Cart.Entity;
+			}
+			set
+			{
+				Cart previousValue = this._Cart.Entity;
+				if (((previousValue != value) 
+							|| (this._Cart.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Cart.Entity = null;
+						previousValue.CartDetail.Remove(this);
+					}
+					this._Cart.Entity = value;
+					if ((value != null))
+					{
+						value.CartDetail.Add(this);
+						this._CartID = value.CartID;
+					}
+					else
+					{
+						this._CartID = default(int);
+					}
+					this.SendPropertyChanged("Cart");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_CartDetail", Storage="_Product", ThisKey="ProductID", OtherKey="ProductID", IsForeignKey=true)]
+		public Product Product
+		{
+			get
+			{
+				return this._Product.Entity;
+			}
+			set
+			{
+				Product previousValue = this._Product.Entity;
+				if (((previousValue != value) 
+							|| (this._Product.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Product.Entity = null;
+						previousValue.CartDetail.Remove(this);
+					}
+					this._Product.Entity = value;
+					if ((value != null))
+					{
+						value.CartDetail.Add(this);
+						this._ProductID = value.ProductID;
+					}
+					else
+					{
+						this._ProductID = default(string);
+					}
+					this.SendPropertyChanged("Product");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -691,9 +761,9 @@ namespace AMZ_Coupon.Models
 		
 		private string _Shelf;
 		
-		private string _CouponID;
+		private EntitySet<CartDetail> _CartDetail;
 		
-		private EntityRef<Coupon> _Coupon;
+		private EntitySet<Coupon> _Coupon;
 		
     #region 擴充性方法定義
     partial void OnLoaded();
@@ -707,13 +777,12 @@ namespace AMZ_Coupon.Models
     partial void OnPriceChanged();
     partial void OnShelfChanging(string value);
     partial void OnShelfChanged();
-    partial void OnCouponIDChanging(string value);
-    partial void OnCouponIDChanged();
     #endregion
 		
 		public Product()
 		{
-			this._Coupon = default(EntityRef<Coupon>);
+			this._CartDetail = new EntitySet<CartDetail>(new Action<CartDetail>(this.attach_CartDetail), new Action<CartDetail>(this.detach_CartDetail));
+			this._Coupon = new EntitySet<Coupon>(new Action<Coupon>(this.attach_Coupon), new Action<Coupon>(this.detach_Coupon));
 			OnCreated();
 		}
 		
@@ -797,7 +866,126 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_CartDetail", Storage="_CartDetail", ThisKey="ProductID", OtherKey="ProductID")]
+		public EntitySet<CartDetail> CartDetail
+		{
+			get
+			{
+				return this._CartDetail;
+			}
+			set
+			{
+				this._CartDetail.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_Coupon", Storage="_Coupon", ThisKey="ProductID", OtherKey="ProductID")]
+		public EntitySet<Coupon> Coupon
+		{
+			get
+			{
+				return this._Coupon;
+			}
+			set
+			{
+				this._Coupon.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CartDetail(CartDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = this;
+		}
+		
+		private void detach_CartDetail(CartDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = null;
+		}
+		
+		private void attach_Coupon(Coupon entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = this;
+		}
+		
+		private void detach_Coupon(Coupon entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Coupon")]
+	public partial class Coupon : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _CouponID;
+		
+		private string _PCoupon;
+		
+		private System.DateTime _StartTime;
+		
+		private System.DateTime _EndTime;
+		
+		private string _Valid;
+		
+		private decimal _Discount;
+		
+		private string _ProductID;
+		
+		private EntityRef<Product> _Product;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCouponIDChanging(string value);
+    partial void OnCouponIDChanged();
+    partial void OnPCouponChanging(string value);
+    partial void OnPCouponChanged();
+    partial void OnStartTimeChanging(System.DateTime value);
+    partial void OnStartTimeChanged();
+    partial void OnEndTimeChanging(System.DateTime value);
+    partial void OnEndTimeChanged();
+    partial void OnValidChanging(string value);
+    partial void OnValidChanged();
+    partial void OnDiscountChanging(decimal value);
+    partial void OnDiscountChanged();
+    partial void OnProductIDChanging(string value);
+    partial void OnProductIDChanged();
+    #endregion
+		
+		public Coupon()
+		{
+			this._Product = default(EntityRef<Product>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CouponID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string CouponID
 		{
 			get
@@ -808,10 +996,6 @@ namespace AMZ_Coupon.Models
 			{
 				if ((this._CouponID != value))
 				{
-					if (this._Coupon.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnCouponIDChanging(value);
 					this.SendPropertyChanging();
 					this._CouponID = value;
@@ -821,36 +1005,160 @@ namespace AMZ_Coupon.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Coupon_Product", Storage="_Coupon", ThisKey="CouponID", OtherKey="CouponID", IsForeignKey=true)]
-		public Coupon Coupon
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PCoupon", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string PCoupon
 		{
 			get
 			{
-				return this._Coupon.Entity;
+				return this._PCoupon;
 			}
 			set
 			{
-				Coupon previousValue = this._Coupon.Entity;
+				if ((this._PCoupon != value))
+				{
+					this.OnPCouponChanging(value);
+					this.SendPropertyChanging();
+					this._PCoupon = value;
+					this.SendPropertyChanged("PCoupon");
+					this.OnPCouponChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime NOT NULL")]
+		public System.DateTime StartTime
+		{
+			get
+			{
+				return this._StartTime;
+			}
+			set
+			{
+				if ((this._StartTime != value))
+				{
+					this.OnStartTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartTime = value;
+					this.SendPropertyChanged("StartTime");
+					this.OnStartTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valid", DbType="NChar(10) NOT NULL", CanBeNull=false)]
+		public string Valid
+		{
+			get
+			{
+				return this._Valid;
+			}
+			set
+			{
+				if ((this._Valid != value))
+				{
+					this.OnValidChanging(value);
+					this.SendPropertyChanging();
+					this._Valid = value;
+					this.SendPropertyChanged("Valid");
+					this.OnValidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Discount", DbType="Decimal(18,4) NOT NULL")]
+		public decimal Discount
+		{
+			get
+			{
+				return this._Discount;
+			}
+			set
+			{
+				if ((this._Discount != value))
+				{
+					this.OnDiscountChanging(value);
+					this.SendPropertyChanging();
+					this._Discount = value;
+					this.SendPropertyChanged("Discount");
+					this.OnDiscountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="VarChar(50)")]
+		public string ProductID
+		{
+			get
+			{
+				return this._ProductID;
+			}
+			set
+			{
+				if ((this._ProductID != value))
+				{
+					if (this._Product.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIDChanging(value);
+					this.SendPropertyChanging();
+					this._ProductID = value;
+					this.SendPropertyChanged("ProductID");
+					this.OnProductIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_Coupon", Storage="_Product", ThisKey="ProductID", OtherKey="ProductID", IsForeignKey=true)]
+		public Product Product
+		{
+			get
+			{
+				return this._Product.Entity;
+			}
+			set
+			{
+				Product previousValue = this._Product.Entity;
 				if (((previousValue != value) 
-							|| (this._Coupon.HasLoadedOrAssignedValue == false)))
+							|| (this._Product.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Coupon.Entity = null;
-						previousValue.Product.Remove(this);
+						this._Product.Entity = null;
+						previousValue.Coupon.Remove(this);
 					}
-					this._Coupon.Entity = value;
+					this._Product.Entity = value;
 					if ((value != null))
 					{
-						value.Product.Add(this);
-						this._CouponID = value.CouponID;
+						value.Coupon.Add(this);
+						this._ProductID = value.ProductID;
 					}
 					else
 					{
-						this._CouponID = default(string);
+						this._ProductID = default(string);
 					}
-					this.SendPropertyChanged("Coupon");
+					this.SendPropertyChanged("Product");
 				}
 			}
 		}
