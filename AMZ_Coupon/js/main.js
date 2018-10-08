@@ -1,14 +1,18 @@
 
 var uri = 'p/api/main';
+var cp;
 (function ($) {
     "use strict";
 
     /*[ Load page ]
     ===========================================================*/
 
-   
+
 
     $('#GoBackEnd').hide();
+    $('#wrongText').hide();
+    $('#displayCoupon').hide();
+
     var ProductID = getProductID();
     console.log('ProductID : ', ProductID);
     var detail = getProductDetailById(ProductID);
@@ -21,12 +25,68 @@ var uri = 'p/api/main';
         }
     })
 
-
-    $('#GetCouponButton').on('click', function () {
-
+    $('#SubmitUserInfo').on('click', function () {
+        var UserEmail = $('#UserEmail').val();
+        var UserName = $('#UserName').val();
+        var IsEmail = checkIsEmail(UserEmail);
+        if (cp != undefined && UserName != undefined && IsEmail == true) {
+            saveUserInfo(UserEmail, UserName, cp);
+        }
+        else {
+            $('#wrongText').show();
+        }
     });
 
+    function checkIsEmail(email) {
+        var regu =
+            "^(([0-9a-zA-Z]+)|([0-9a-zA-Z]+[_.0-9a-zA-Z-]*[0-9a-zA-Z]+))@([a-zA-Z0-9-]+[.])+([a-zA-Z]{2}|net|NET|com|COM|gov|GOV|mil|MIL|org|ORG|edu|EDU|int|INT)$"
+        var re = new RegExp(regu);
+        if (email.search(re) != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    function displayCouponCode() {
+        console.log('displayCouponCode');
+        $('#enterInfo').hide();
+        $('#displayCoupon').show();
+        $('#CouponCode').val(cp);
+        $('#copyCoupon').on('click', function () {
+            var $copyText = $('#CouponCode');
+            $copyText.select();
+            document.execCommand("Copy");
+            console.log('copy :', $copyText);
+        });
+    }
+
+
+    function saveUserInfo(UserEmail, UserName,Coupon) {
+        var json = {
+            "Email": UserEmail,
+            "Name": UserName,
+            "PCoupon": Coupon
+        }
+        $.ajax({
+            url: 'm/api/Member/PostUserInfo',
+            data: JSON.stringify(json),
+            type: "post",
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+                    console.log('Data is Saved !');
+                    displayCouponCode();
+                }
+                else {
+                    console.log('Fail to save Info !');
+                    $('#wrongText').val('OOPS! Something went wrong , please try again later');
+                }
+            }
+
+        });
+
+    }
     
     
     $('.block2-btn-addcart').each(function () {
@@ -298,6 +358,7 @@ function getProductDetailById(ProductID) {
 }
 
 function displayProductsDetail(item) {
+    cp = item.PCoupon;
     $("#productName").text(item.ProductName);
     $("#tag-productName").text(item.ProductName);
     var strikePrice = ("$" + item.Price).strike();

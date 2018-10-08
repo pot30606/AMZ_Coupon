@@ -46,18 +46,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="enterInfo">
                     <div class="form-group">
                         <label for="">Enter Your Email</label>
                         <input type="email" class="form-control" name="" id="UserEmail" aria-describedby="helpId" placeholder="Your Email">
                     </div>
                     <div class="form-group">
                         <label for="">Enter Your Name</label>
-                        <input type="email" class="form-control" name="" id="UserName" aria-describedby="helpId" placeholder="Your Name">
+                        <input type="text" class="form-control" name="" id="UserName" aria-describedby="helpId" placeholder="Your Name">
                     </div>
-                    <a name="" id="SubmitUserInfo" class="btn btn-primary" role="button" >Get Coupon!</a>
+                    <div>
+                        <p id="wrongText" class="text-danger">Incorrect !</p>
+                    </div>
+                    <a name="" id="SubmitUserInfo" class="btn btn-primary" role="button">Get Coupon!</a>
                 </div>
-
+                <div class="modal-body" id="displayCoupon">
+                    <p class="text-info">This is your Coupon</p>
+                    <input type="text" class="form-control" id="CouponCode" aria-describedby="helpId" readonly>
+                    <a name="" id="copyCoupon" class="btn btn-primary" role="button">Copy</a>
+                </div>
             </div>
         </div>
     </div>

@@ -29,7 +29,11 @@ namespace AMZ_Coupon.Controllers
         public IEnumerable<Models.ProductCouponTable> GetProduct(string productid)
         {
             var result = CouponDB.GetSingleProduct(productid);
-
+            var test = CouponDB.GetAll();
+            foreach(var item in test)
+            {
+                var x = item;
+            }
             if (result.Count() > 0)
             {
                 return result;

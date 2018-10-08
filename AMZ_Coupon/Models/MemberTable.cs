@@ -16,5 +16,6 @@ namespace AMZ_Coupon.Models
         public string Country { get; set; }
         public int Age { get; set; }
         public string Manager { get; set; }
+        public string PCoupon { get; set; }
     }
 }

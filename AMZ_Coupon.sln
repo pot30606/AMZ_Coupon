@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMZ_Coupon", "AMZ_Coupon\AMZ_Coupon.csproj", "{F50ABAD6-1B37-42A5-961E-223AF9BA199F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMZ_Coupon_core", "AMZ_Coupon_core\AMZ_Coupon_core.csproj", "{AC7FF315-FAA2-4962-81C5-DD4DEF3BD061}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F50ABAD6-1B37-42A5-961E-223AF9BA199F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F50ABAD6-1B37-42A5-961E-223AF9BA199F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F50ABAD6-1B37-42A5-961E-223AF9BA199F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7FF315-FAA2-4962-81C5-DD4DEF3BD061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7FF315-FAA2-4962-81C5-DD4DEF3BD061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7FF315-FAA2-4962-81C5-DD4DEF3BD061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7FF315-FAA2-4962-81C5-DD4DEF3BD061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

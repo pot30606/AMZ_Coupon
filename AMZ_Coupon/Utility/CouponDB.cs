@@ -1,4 +1,8 @@
 ﻿using AMZ_Coupon.Models;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +11,16 @@ using System.Web;
 namespace AMZ_Coupon.Utility
 {
     public class CouponDB
-    {
+    {// MongoDB 連線字串
+        private static string connectionString = "mongodb://localhost";
+        // 產生 MongoClient 物件
+        private static MongoClient _mongoClient = new MongoClient(connectionString);
+        // 取得 MongoServer 物件
+        private static MongoServer _mongoServer = _mongoClient.GetServer();
+        // 取得 MongoDatabase 物件
+        private static MongoDatabase _mongoDatabase = _mongoServer.GetDatabase("DATABASE_AMZCouponDB");
+        // 取得 Collection
+        private static MongoCollection<MongoTest> _mongoCollection = _mongoDatabase.GetCollection<MongoTest>("AMZCouponDB");
 
 
         public static DataClasses1DataContext GetDbInstance()
@@ -16,6 +29,12 @@ namespace AMZ_Coupon.Utility
             return DB;
         }
 
+        public static IQueryable GetAll()
+        {
+            var name = _mongoCollection.Name;
+            return _mongoCollection.AsQueryable();
+
+        }
         public static string CheckLogin(string account, string password)
         {
             var db = GetDbInstance();
@@ -31,6 +50,8 @@ namespace AMZ_Coupon.Utility
                 return null;
             }
         }
+
+        
         #region GetData
         public static IEnumerable<Product> GetProducts()
         {
@@ -111,6 +132,47 @@ namespace AMZ_Coupon.Utility
         #endregion
 
         #region SaveData
+
+        public static bool InsertIntoMember(MemberTable member)
+        {
+            var db = GetDbInstance();
+            var mb = new Member()
+            {
+                Email = member.Email,
+                Name = member.Name,
+                Manager ="n"
+            };
+            db.Member.InsertOnSubmit(mb);
+            try
+            {
+                db.SubmitChanges();
+                return true;
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
+        }
+
+        public static bool AlterCouponStatus(string Coupon)
+        {
+            var db = GetDbInstance();
+            var alterCoupon = (from c in db.Coupon
+                              where c.PCoupon == Coupon
+                              select c.Valid).FirstOrDefault();
+            alterCoupon = "n";
+            try
+            {
+                db.SubmitChanges();
+                return true;
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
+        }
+
+
         public static bool InsertIntoProduct(ProductCouponTable product)
         {
             var db = GetDbInstance();
